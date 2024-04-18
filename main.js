@@ -45,4 +45,27 @@ L.control
 
   // Fullscreen Map
 
-  L.control.fullscreen().addTo(map);
+  L.control.fullscreen().addTo(map);//#endregion
+
+
+   // function addiere (zahl1, zahl2) {
+   // let summe = zahl1+ zahl2;
+   // console.log("Summe: ",summe);
+   //}
+
+   //addiere (4, 7);
+
+
+// hier müssen jetzt Parameter rein von wo wir die Daten holen
+
+  async function loadSights(url) {
+    console.log ("Loading", url)
+    let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
+    let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
+   console.log(geojson)
+   L.geoJSON(geojson).addTo (map); // hier werden sie jetzt in die Karte geladen
+  }
+   loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
+
+   
+
