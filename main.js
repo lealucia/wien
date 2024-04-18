@@ -71,7 +71,19 @@ L.control
     let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
     let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
    console.log(geojson)
-   L.geoJSON(geojson).addTo (themaLayer.sights); // hier werden sie jetzt in die Karte geladen
+   L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup (`
+      <img src="${feature.properties.NAME}" alt= "*">
+      <h4><a href=${feature.properties.WEITERE_INF}"  
+       target= "wien">${feature.properties.NAME} </h4>
+      <address>${feature.properties.ADRESSE} </address>      
+      Sehenswürdigkeiten${feature.properties.NAME}
+      `);
+    }
+   }).addTo (themaLayer.sights); // hier werden sie jetzt in die Karte geladen
   }
    loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
