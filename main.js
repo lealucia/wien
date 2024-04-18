@@ -42,3 +42,7 @@ L.control
     imperial: false,
   })
   .addTo(map);
+
+  // Fullscreen Map
+
+  L.control.fullscreen().addTo(map);
