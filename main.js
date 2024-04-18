@@ -16,10 +16,17 @@ let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 12);
 let startLayer = L.tileLayer.provider("BasemapAT.grau");
 startLayer.addTo(map);
 
-let themaLayer = {
- sights: L.featureGroup().addTo(map)
-}
 
+//als erstes muss ich hier den neuen definieren
+let themaLayer = {
+ sights: L.featureGroup().addTo(map),
+ lines: L.featureGroup().addTo(map),
+ stops: L.featureGroup().addTo(map),
+ hotels: L.featureGroup().addTo(map),
+ zones: L.featureGroup ().addTo(map),
+
+}
+//dann hier auch wieder hinzufügen
 
 // Hintergrundlayer (auf Leaflet gibt es viele vers. Karten -> kann man hier reinfügen// erste Beschreibung in "..." steht dann auf website)
 L.control
@@ -35,14 +42,13 @@ L.control
     
   }, {
     "sehenswürdigkeiten":themaLayer.sights,   
+    "Vienna Sightseeing Linien": themaLayer.lines,
+    "Vienna Sightseeing stops": themaLayer.stops,
+    "Vienna Hotels": themaLayer.hotels,
+    "Vienna Zones": themaLayer.zones
   })
   .addTo(map);
 
-// Marker Stephansdom
-L.marker([stephansdom.lat, stephansdom.lng])
-  .addTo(themaLayer.sights)
-  .bindPopup(stephansdom.title)
-  .openPopup();
 
 // Maßstab
 L.control
@@ -53,7 +59,7 @@ L.control
 
   // Fullscreen Map
 
-  L.control.fullscreen().addTo(map);//#endregion
+  L.control.fullscreen().addTo(map);
 
 
    // function addiere (zahl1, zahl2) {
@@ -87,5 +93,80 @@ L.control
   }
    loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
-   
+// Hier für Buslinien 
+   async function loadlines(url) {
+    console.log ("Loading", url)
+    let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
+    let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
+   console.log(geojson)
+   L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      console.log(feature);
+      console.log(feature.properties.NAME);
+      layer.bindPopup (`
+      `);
+    }
+   }).addTo (themaLayer.lines); // hier werden sie jetzt in die Karte geladen
+  }
+   loadlines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
 
+//Hier für Stops
+
+async function loadstops(url) {
+  console.log ("Loading", url)
+  let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
+  let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
+ console.log(geojson)
+ L.geoJSON(geojson, {
+  onEachFeature: function (feature, layer) {
+    console.log("stops",feature);
+    console.log(feature.properties.NAME);
+    layer.bindPopup (`
+    `);
+  }
+ }).addTo (themaLayer.stops); // hier werden sie jetzt in die Karte geladen
+}
+ loadstops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
+ 
+ //Hier für Hotels
+
+ async function loadshotels(url) {
+  console.log ("Loading", url)
+  let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
+  let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
+ console.log(geojson)
+ L.geoJSON(geojson, {
+  onEachFeature: function (feature, layer) {
+    console.log(feature);
+    console.log(feature.properties.NAME);
+    layer.bindPopup (`
+    `);
+  }
+ }).addTo (themaLayer.hotels); // hier werden sie jetzt in die Karte geladen
+}
+ loadshotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
+
+
+ //Hier fußgängerzone
+
+ async function loadzones(url) {
+  console.log ("Loading", url)
+  let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
+  let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
+ console.log(geojson)
+ L.geoJSON(geojson, {
+  onEachFeature: function (feature, layer) {
+    console.log(feature);
+    console.log(feature.properties.NAME);
+    layer.bindPopup (`
+    `);
+  }
+ }).addTo (themaLayer.zones); // hier werden sie jetzt in die Karte geladen
+}
+ loadzones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
+
+
+// Touristische Kraftfahrlinien (loadlines) overlay= lines
+//Touristische Kraftfahrlinien Haltestelle (loadstops) overlay= stops
+//Fußgängerzonen Wien (loadZones) overlay= zones
+//Hotels und Unterkünfte overlay= hotels
