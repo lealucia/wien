@@ -76,7 +76,7 @@ L.control
       console.log(feature);
       console.log(feature.properties.NAME);
       layer.bindPopup (`
-      <img src="${feature.properties.NAME}" alt= "*">
+      <img src="${feature.properties.THUMBNAIL}" alt= "*">
       <h4><a href=${feature.properties.WEITERE_INF}"  
        target= "wien">${feature.properties.NAME} </h4>
       <address>${feature.properties.ADRESSE} </address>      
