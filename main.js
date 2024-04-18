@@ -6,6 +6,7 @@ let stephansdom = {
   lng: 16.373118,
   title: "Stephansdom",
 };
+/* Geschwungene Klammer = Objekt */ 
 
 // Karte initialisieren
 let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 12);
@@ -14,7 +15,7 @@ let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 12);
 let startLayer = L.tileLayer.provider("BasemapAT.grau");
 startLayer.addTo(map);
 
-// Hintergrundlayer
+// Hintergrundlayer (auf Leaflet gibt es viele vers. Karten -> kann man hier reinfügen// erste Beschreibung in "..." steht dann auf website)
 L.control
   .layers({
     "BasemapAT Grau": startLayer,
@@ -24,6 +25,8 @@ L.control
     "BasemapAT Oberfläche": L.tileLayer.provider("BasemapAT.surface"),
     "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
     "BasemapAT Beschriftung": L.tileLayer.provider("BasemapAT.overlay"),
+    "Topomap": L.tileLayer.provider("OpenTopoMap"),
+    
   })
   .addTo(map);
 

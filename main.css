@@ -37,7 +37,7 @@ article {
 
 #map {
     width: 100%;
-    height: 85vh;
+    height: 85vh; /*viewport hight ---> alles was der Bildschirm anzeigt*/
     border: 1px solid gray;
 }
 
