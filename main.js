@@ -7,7 +7,6 @@ let stephansdom = {
   lng: 16.373118,
   title: "Stephansdom",
 };
-/* Geschwungene Klammer = Objekt */ 
 
 // Karte initialisieren
 let map = L.map("map").setView([stephansdom.lat, stephansdom.lng], 12);
@@ -39,11 +38,10 @@ L.control
     "BasemapAT Orthofoto": L.tileLayer.provider("BasemapAT.orthofoto"),
     "BasemapAT Beschriftung": L.tileLayer.provider("BasemapAT.overlay"),
     "Topomap": L.tileLayer.provider("OpenTopoMap"),
-    
   }, {
-    "sehenswürdigkeiten":themaLayer.sights,   
+    "Sehenswürdigkeiten":themaLayer.sights,   
     "Vienna Sightseeing Linien": themaLayer.lines,
-    "Vienna Sightseeing stops": themaLayer.stops,
+    "Vienna Sightseeing Stops": themaLayer.stops,
     "Vienna Hotels": themaLayer.hotels,
     "Vienna Zones": themaLayer.zones
   })
@@ -61,15 +59,6 @@ L.control
 
   L.control.fullscreen().addTo(map);
 
-
-   // function addiere (zahl1, zahl2) {
-   // let summe = zahl1+ zahl2;
-   // console.log("Summe: ",summe);
-   //}
-
-   //addiere (4, 7);
-
-
 // hier müssen jetzt Parameter rein von wo wir die Daten holen
 
   async function loadSights(url) {
@@ -86,7 +75,6 @@ L.control
       <h4><a href=${feature.properties.WEITERE_INF}"  
        target= "wien">${feature.properties.NAME} </h4>
       <address>${feature.properties.ADRESSE} </address>      
-      Sehenswürdigkeiten${feature.properties.NAME}
       `);
     }
    }).addTo (themaLayer.sights); // hier werden sie jetzt in die Karte geladen
@@ -104,6 +92,10 @@ L.control
       console.log(feature);
       console.log(feature.properties.NAME);
       layer.bindPopup (`
+      <h4><i class= "fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
+      <adress> <i class="fa-regular fa-circle-stop"> </i>${feature.properties.FROM_NAME}</adress><br>
+      <i class="fa-solid fa-arrow-down"></i><br>
+      <adress><i class="fa-regular fa-circle-stop"> </i>${feature.properties.TO_NAME}</adress>
       `);
     }
    }).addTo (themaLayer.lines); // hier werden sie jetzt in die Karte geladen
@@ -122,6 +114,10 @@ async function loadstops(url) {
     console.log("stops",feature);
     console.log(feature.properties.NAME);
     layer.bindPopup (`
+    <h4><i class= "fa-solid fa-bus"></i> ${feature.properties.LINE_NAME}</h4>
+    <adress> ${feature.properties.STAT_ID}</adress> <adress> ${feature.properties.STAT_NAME}</adress><br>
+   
+    
     `);
   }
  }).addTo (themaLayer.stops); // hier werden sie jetzt in die Karte geladen
