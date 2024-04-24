@@ -142,7 +142,8 @@ async function loadstops(url) {
     Addr.: ${feature.properties.ADRESSE}<br>
     Tel.: ${feature.properties.KONTAKT_TEL}<br>
     E-Mail: <u>${feature.properties.KONTAKT_EMAIL}</u> 
-    <a href="${feature.properties.WEBLINK1}">Homepage</a>
+    <a href="${feature.properties.WEBLINK1}"> <br>
+    Homepage</a>
     `);
   }
  }).addTo (themaLayer.hotels); // hier werden sie jetzt in die Karte geladen
@@ -162,8 +163,8 @@ async function loadstops(url) {
     console.log(feature);
     console.log(feature.properties.NAME);
     layer.bindPopup (`
-    <h3> Fußgängerzone ${feature.properties.ADRESSE} </h3>
-    <i class="fa-regular fa-clock"> </i> ${feature.properties.ZEITRAUM} <br> <br>
+    <h4> Fußgängerzone ${feature.properties.ADRESSE} </h4>
+    <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM} <br><br>
     <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TXT}
     `);
   }
