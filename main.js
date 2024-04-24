@@ -136,6 +136,13 @@ async function loadstops(url) {
     console.log(feature);
     console.log(feature.properties.NAME);
     layer.bindPopup (`
+    <h3> ${feature.properties.BETRIEB}</h3>
+    <h4> ${feature.properties.BETRIEBSART_TXT} (${feature.properties.KATEGORIE_TXT})</h4>
+    <hr>
+    Addr.: ${feature.properties.ADRESSE}<br>
+    Tel.: ${feature.properties.KONTAKT_TEL}<br>
+    E-Mail: <u>${feature.properties.KONTAKT_EMAIL}</u> 
+    <a href="${feature.properties.WEBLINK1}">Homepage</a>
     `);
   }
  }).addTo (themaLayer.hotels); // hier werden sie jetzt in die Karte geladen
@@ -155,6 +162,9 @@ async function loadstops(url) {
     console.log(feature);
     console.log(feature.properties.NAME);
     layer.bindPopup (`
+    <h3> Fußgängerzone ${feature.properties.ADRESSE} </h3>
+    <i class="fa-regular fa-clock"> </i> ${feature.properties.ZEITRAUM} <br> <br>
+    <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TXT}
     `);
   }
  }).addTo (themaLayer.zones); // hier werden sie jetzt in die Karte geladen
