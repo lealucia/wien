@@ -18,9 +18,9 @@ startLayer.addTo(map);
 
 //als erstes muss ich hier den neuen definieren
 let themaLayer = {
- sights: L.featureGroup().addTo(map),
+ sights: L.featureGroup(),
  lines: L.featureGroup(),
- stops: L.featureGroup(),
+ stops: L.featureGroup().addTo(map),
  hotels: L.featureGroup(),
  zones: L.featureGroup (),
 
@@ -135,6 +135,8 @@ L.control
    loadlines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
 
 //Hier für Stops
+
+
 
 async function loadstops(url) {
   console.log ("Loading", url)
