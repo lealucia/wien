@@ -18,11 +18,11 @@ startLayer.addTo(map);
 
 //als erstes muss ich hier den neuen definieren
 let themaLayer = {
- sights: L.featureGroup(),
- lines: L.featureGroup(),
+ sights: L.featureGroup().addTo(map),
+ lines: L.featureGroup().addTo(map),
  stops: L.featureGroup().addTo(map),
- hotels: L.featureGroup(),
- zones: L.featureGroup (),
+ hotels: L.markerClusterGroup().addTo(map),
+ zones: L.featureGroup ().addTo(map),
 
 }
 //dann hier auch wieder hinzufügen
@@ -139,11 +139,20 @@ L.control
 
 
 async function loadstops(url) {
-  console.log ("Loading", url)
+ // console.log ("Loading", url);
   let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
   let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
- console.log(geojson)
+// console.log(geojson)
  L.geoJSON(geojson, {
+    pointToLayer: function(feature, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: `icons/busstop${feature.properties.LINE_ID}.png`,
+        iconAnchor: [16,37],
+        popupAnchor: [0,-37]
+      })
+    });
+   },
   onEachFeature: function (feature, layer) {
     console.log("stops",feature);
     console.log(feature.properties.NAME);
@@ -161,15 +170,40 @@ async function loadstops(url) {
  //Hier für Hotels
 
  async function loadshotels(url) {
-  console.log ("Loading", url)
+ // console.log ("Loading", url)
   let response= await fetch(url);    // ACHTUNG! Da Sachen aus dem Internet manchmal länger herunterladen, muss ich das beachten beim skript. ich muss async vor function hinzufügen 
   let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
- console.log(geojson)
+ //console.log(geojson)
  L.geoJSON(geojson, {
+  pointToLayer: function (feature,latlng) {
+    let hotelKat= feature.properties.KATEGORIE_TXT;
+    let hotelIcon;
+console.log(hotelKat)
+if (hotelKat== "nicht kategorisiert"){
+  hotelIcon= "hotel_0star";
+}else if (hotelKat == "1*") {
+  hotelIcon= "hotel_1star";
+}else if (hotelKat == "2*") {
+  hotelIcon= "hotel_2stars";
+}else if (hotelKat == "3*") {
+  hotelIcon= "hotel_3stars";
+}else if (hotelKat == "4*") {
+  hotelIcon= "hotel_4stars";
+}else if (hotelKat == "5*") {
+  hotelIcon= "hotel_5stars";
+}else { hotelIcon= "hotel_0star";
+  //gibt es irgendwann 6*
+}
+  return L.marker(latlng, {
+    icon: L.icon({
+    iconUrl: `icons/${hotelIcon}.png`,
+    iconAnchor:[16, 37],
+    popupAnchor:[0,-37], 
+  })
+});
+  }, 
   onEachFeature: function (feature, layer) {
-    console.log(feature);
-    console.log(feature.properties.NAME);
-    layer.bindPopup (`
+   layer.bindPopup (`
     <h3> ${feature.properties.BETRIEB}</h3>
     <h4> ${feature.properties.BETRIEBSART_TXT} (${feature.properties.KATEGORIE_TXT})</h4>
     <hr>
