@@ -18,10 +18,10 @@ startLayer.addTo(map);
 
 //als erstes muss ich hier den neuen definieren
 let themaLayer = {
- sights: L.featureGroup().addTo(map),
- lines: L.featureGroup().addTo(map),
- stops: L.featureGroup().addTo(map),
- hotels: L.featureGroup().addTo(map),
+ sights: L.featureGroup(),
+ lines: L.featureGroup(),
+ stops: L.featureGroup(),
+ hotels: L.featureGroup(),
  zones: L.featureGroup ().addTo(map),
 
 }
@@ -141,8 +141,8 @@ async function loadstops(url) {
     <hr>
     Addr.: ${feature.properties.ADRESSE}<br>
     Tel.: <a href="tel: ${feature.properties.KONTAKT_TEL}"> ${feature.properties.KONTAKT_TEL} </a> <br>
-    E-Mail: <u>${feature.properties.KONTAKT_EMAIL}</u> 
-    <a href="${feature.properties.WEBLINK1}"> <br>
+    E-Mail: <a href= "E-Mail: ${feature.properties.KONTAKT_EMAIL}" > "${feature.properties.WEBLINK1}"> </a> 
+   <br>
     Homepage</a>
     `);
   }
