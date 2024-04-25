@@ -70,7 +70,9 @@ L.control
     pointToLayer:function(feature, latlng){
      return L.marker(latlng, {
       icon: L.icon({
-        iconUrl: "icons/photo.png"
+        iconUrl: "icons/photo.png",
+        iconAnchor:[16, 37], //IconAnchor sagt dann wo der NUllpunkt ist (also da wo die GPSdatensind)
+        popupAnchor:[0,-37], //Hier kann ich einstellen wo sich POpup öffnen soll, damit ich Marker noch see
       })
     });
     },
