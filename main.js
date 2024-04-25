@@ -159,6 +159,14 @@ async function loadstops(url) {
   let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
  console.log(geojson)
  L.geoJSON(geojson, {
+  style: function(feature) {  //hier mach ich mir jetzt ein neues LAyout für die Zonen
+    return {
+      color:"#F012BE",
+      weigth: 1,
+      opacity: 0.4,
+      fillOpacity: 0.1,
+    };
+  },
   onEachFeature: function (feature, layer) {
     console.log(feature);
     console.log(feature.properties.NAME);
@@ -177,3 +185,5 @@ async function loadstops(url) {
 //Touristische Kraftfahrlinien Haltestelle (loadstops) overlay= stops
 //Fußgängerzonen Wien (loadZones) overlay= zones
 //Hotels und Unterkünfte overlay= hotels
+
+//für FArben clrs.cc
