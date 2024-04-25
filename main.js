@@ -140,7 +140,7 @@ async function loadstops(url) {
     <h4> ${feature.properties.BETRIEBSART_TXT} (${feature.properties.KATEGORIE_TXT})</h4>
     <hr>
     Addr.: ${feature.properties.ADRESSE}<br>
-    Tel.: ${feature.properties.KONTAKT_TEL}<br>
+    Tel.: <a href="tel: ${feature.properties.KONTAKT_TEL}"> ${feature.properties.KONTAKT_TEL} </a> <br>
     E-Mail: <u>${feature.properties.KONTAKT_EMAIL}</u> 
     <a href="${feature.properties.WEBLINK1}"> <br>
     Homepage</a>
@@ -164,8 +164,8 @@ async function loadstops(url) {
     console.log(feature.properties.NAME);
     layer.bindPopup (`
     <h4> Fußgängerzone ${feature.properties.ADRESSE} </h4>
-    <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM} <br><br>
-    <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TXT}
+    <i class="fa-regular fa-clock"></i> ${feature.properties.ZEITRAUM }  || "ohne Ausnahme" <br><br>
+    <i class="fa-solid fa-circle-info"></i> ${feature.properties.AUSN_TEXT}
     `);
   }
  }).addTo (themaLayer.zones); // hier werden sie jetzt in die Karte geladen
