@@ -19,10 +19,10 @@ startLayer.addTo(map);
 //als erstes muss ich hier den neuen definieren
 let themaLayer = {
  sights: L.featureGroup(),
- lines: L.featureGroup(),
+ lines: L.featureGroup().addTo(map),
  stops: L.featureGroup(),
  hotels: L.featureGroup(),
- zones: L.featureGroup ().addTo(map),
+ zones: L.featureGroup (),
 
 }
 //dann hier auch wieder hinzufügen
@@ -88,6 +88,29 @@ L.control
     let geojson= await response.json(); // nachdem das Download fertig ist, lad ich es damit rein --> in der Variable, hab ich dann alles was vom Server geladen werden soll
    console.log(geojson)
    L.geoJSON(geojson, {
+    style: function(feature) { 
+      console.log(feature.properties.LINE_NAME);
+      let lineName= feature.properties.LINE_NAME;
+      let lineColor = "black";
+      if (lineName == "Red Line") {
+        lineColor= "#FF4136 ";
+      } else if (lineName== "Yellow Line") {
+        lineColor= "#FFDC00"; 
+      } else if (lineName== "Orange Line"){
+        lineColor= "#FF851B";
+      } else if (lineName== "Green Line"){
+        lineColor= "#2ECC40"; 
+      } else if (lineName== "Blue Line"){
+        lineColor= "#0074D9"; 
+      } else if (lineName== "Grey Line"){
+        lineColor= "#AAAAAA";
+      } else {
+        //vielleicht kommen noch andere Linien hinzu
+      }
+      return {
+        color: lineColor, 
+      }
+    },
     onEachFeature: function (feature, layer) {
       console.log(feature);
       console.log(feature.properties.NAME);
